@@ -18,7 +18,7 @@ ALLOWED_HOSTS = local_settings.ALLOWEDHOSTS
 LOCAL_APPS = [
     'Ecommerce_App.Product.apps.ProductConfig',
     'Ecommerce_App.Commons.apps.CommonsConfig',
-    
+    'Ecommerce_App.Category.apps.CategoryConfig',
 ]
 
 THIRD_PARTY_APPS = [
