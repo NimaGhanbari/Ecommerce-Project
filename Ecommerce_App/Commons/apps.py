@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CommonConfig(AppConfig):
+class CommonsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Ecommerce_App.Common'
+    name = 'Ecommerce_App.Commons'
