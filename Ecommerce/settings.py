@@ -16,6 +16,8 @@ DEBUG = local_settings.DEB
 ALLOWED_HOSTS = local_settings.ALLOWEDHOSTS
 
 LOCAL_APPS = [
+    'Ecommerce_App.Product.apps.ProductConfig',
+    'Ecommerce_App.Common.apps.CommonConfig',
     
 ]
 
