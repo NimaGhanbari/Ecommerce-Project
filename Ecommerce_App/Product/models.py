@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from Commons.models import BaseModel
+from Ecommerce_App.Commons.models import BaseModel
 
 
 class Products(BaseModel):
@@ -8,7 +8,7 @@ class Products(BaseModel):
     description = models.TextField(_("description"),blank=True)
     price = models.BigIntegerField(_("Price"))
     slug = models.SlugField(primary_key=True,max_length=100,)
-    categories = models.ManyToManyField('Category',verbose_name=_("categories"))
+    #categories = models.ManyToManyField('Category',verbose_name=_("categories"))
     is_enable = models.BooleanField(_("is enable"),default=True)
     uniqe_code = models.PositiveIntegerField(verbose_name=_('uniqe_code'),unique=True)
     
