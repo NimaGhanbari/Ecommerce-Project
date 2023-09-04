@@ -1,8 +1,4 @@
-from Ecommerce_App.Category.models import Category
 
-
-def is_subcategory(categor):
-    return Category.objects.filter(parent=categor)
     
     
 def Sort_By(elements,by=4):
