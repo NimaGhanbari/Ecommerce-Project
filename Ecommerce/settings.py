@@ -20,6 +20,8 @@ LOCAL_APPS = [
     'Ecommerce_App.Product.apps.ProductConfig',
     'Ecommerce_App.Commons.apps.CommonsConfig',
     'Ecommerce_App.Category.apps.CategoryConfig',
+    'Ecommerce_App.Comment.apps.CommentConfig',
+    
 ]
 
 THIRD_PARTY_APPS = [
