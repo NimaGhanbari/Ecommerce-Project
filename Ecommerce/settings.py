@@ -26,6 +26,7 @@ LOCAL_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'nested_admin',
     
 ]
 
