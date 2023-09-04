@@ -1,5 +1,5 @@
 from pathlib import Path
-from Ecommerce.settings_project import local_settings
+from Ecommerce.settings_project import local_settings,restframework_set
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,6 +23,7 @@ LOCAL_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'rest_framework',
     
 ]
 
