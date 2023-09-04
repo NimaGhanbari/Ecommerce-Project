@@ -45,10 +45,11 @@ class PostApi(APIView):
 class PostDetailApi(APIView):
     categories = PostApi.CategorySerializer()
     class OutPutSerializer(serializers.ModelSerializer):
-        model = Products
-        fields = ("title","description","price","slug","categories","is_enable","uniqe_code","created_at","updated_at")
+        class Meta:
+            model = Products
+            fields = ("title","description","price","slug","categories","is_enable","uniqe_code","created_at","updated_at")
     
-    def get(request,Pslug):
+    def get(self,request,Pslug):
         product = get_object_or_404(Products,slug=Pslug,is_enable=True)
         return Response(self.OutPutSerializer(product,context={"request":request}).data)
     
