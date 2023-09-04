@@ -6,7 +6,7 @@ from Ecommerce_App.Category.models import Category
 from Ecommerce_App.Product.models import Products
 from django.shortcuts import get_object_or_404
 from Ecommerce_App.Product.services.product_ser import Sort_By
-from Ecommerce_App.Category.services.category_ser import is_subcategory
+from Ecommerce_App.Category.services.category_ser import Subcategory
 
 class PostApi(APIView):
     
@@ -33,7 +33,7 @@ class PostApi(APIView):
         it returns the products based on the newest by default.
         """
         categor = get_object_or_404(Category,slug=Cslug,is_active=True)
-        result = is_subcategory(categor)
+        result = Subcategory(categor)
         if result:
             return Response(self.CategorySerializer(result, context={"request":request}).data)
         else:
