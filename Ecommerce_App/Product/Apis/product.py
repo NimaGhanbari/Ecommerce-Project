@@ -15,7 +15,10 @@ class PostApi(APIView):
             model = Category
             fields = ('slug')
     
-    
+    class OutPutSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Products
+            fields = ("title","price","slug","is_enable")
     
     
     def get(self,request,Cslug):
@@ -26,9 +29,9 @@ class PostApi(APIView):
             #تمام زیر مجموعه ها را بازم بر میگردونیم
             pass
         else:
-            #تمام کالا های رو که با این دسته بندی هستند رو بر میگردونیم
-            products = Products.objects.filter(categories=categor)
-            products = Sort_By(products)
-            return 
+            #تمام کالا های رو که با این دسته بندی هستند رو بر میگردونیم بر اساس ترتیب بندی شده
+            products = Sort_By(Products.objects.filter(categories=categor))
+            return Response(self.OutPutSerializer(products, context={"request":request}).data)
+            
             
         
