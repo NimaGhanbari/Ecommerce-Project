@@ -20,3 +20,11 @@ class Products(BaseModel):
 
     def __str__(self):
         return self.title
+    
+    @property
+    def count_reactions(self):
+        dict_count = {}
+        dict_count["like"] = self.likes.filter(value = "1").count()
+        dict_count["dislike"] = self.likes.filter(value = "2").count()
+        dict_count["popular"] = self.likes.filter(value = "3").count()
+        return dict_count

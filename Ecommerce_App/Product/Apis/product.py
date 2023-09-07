@@ -7,7 +7,7 @@ from Ecommerce_App.Product.models import Products
 from django.shortcuts import get_object_or_404
 from Ecommerce_App.Product.services.product_ser import Sort_By
 from Ecommerce_App.Category.services.category_ser import is_subcategory
-
+#from Ecommerce_App.Like.services.like import count_like,count_dislike,count_popular,count_reactions
 class PostApi(APIView):
     
     
@@ -43,11 +43,12 @@ class PostApi(APIView):
             
             
 class PostDetailApi(APIView):
-    categories = PostApi.CategorySerializer()
+    
     class OutPutSerializer(serializers.ModelSerializer):
+        categories = PostApi.CategorySerializer(many=True)
         class Meta:
             model = Products
-            fields = ("title","description","price","slug","categories","is_enable","uniqe_code","created_at","updated_at")
+            fields = ("title","description","price","slug","categories","is_enable","uniqe_code","count_reactions","created_at","updated_at")
     
     def get(self,request,Pslug):
         product = get_object_or_404(Products,slug=Pslug,is_enable=True)
