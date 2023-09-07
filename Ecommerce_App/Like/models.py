@@ -8,9 +8,9 @@ from django.utils.translation import gettext_lazy as _
 
 class Like(BaseModel):
     
-    LIKE = 1
-    DISLIKE = 2
-    POPULAR = 3
+    LIKE = "1"
+    DISLIKE = "2"
+    POPULAR = "3"
     LIKE_CHOICES = (
         (LIKE,_('LIKE')),
         (DISLIKE,_('DISLIKE')),
@@ -23,4 +23,14 @@ class Like(BaseModel):
     value = models.CharField(choices=LIKE_CHOICES,default='LIKE',max_length=15)
     #create time is inherited from BaseModel class
     #update time is inherited from BaseModel class
+    
+    
+    def __str__(self):
+        if self.value == "1":
+            return "like"
+        elif self.value == "2":
+            return "dislike"
+        elif self.value == "3":
+            return "popular"
+        
     
