@@ -7,7 +7,6 @@ from Ecommerce_App.Product.models import Products
 from django.shortcuts import get_object_or_404
 from Ecommerce_App.Product.services.product_ser import Sort_By
 from Ecommerce_App.Category.services.category_ser import is_subcategory
-#from Ecommerce_App.Like.services.like import count_like,count_dislike,count_popular,count_reactions
 class PostApi(APIView):
     
     
