@@ -18,8 +18,8 @@ class Like(BaseModel):
     )
     
     #If the user is deleted, the like or delike remains
-    user = models.ForeignKey(User,null=True,related_name="likes",on_delete=models.SET_NULL)
-    product = models.ForeignKey(Products,related_name="likes",on_delete=models.CASCADE)
+    user = models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
+    product = models.ForeignKey(Products,on_delete=models.CASCADE)
     value = models.CharField(choices=LIKE_CHOICES,default='LIKE',max_length=15)
     #create time is inherited from BaseModel class
     #update time is inherited from BaseModel class
