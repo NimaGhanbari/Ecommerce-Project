@@ -1,11 +1,12 @@
-from django.urls import path
+from django.urls import path,include
 from Ecommerce_App.Product.Apis.product import PostApi,PostDetailApi
 from Ecommerce_App.Like.Apis.like import ReactionApi
 
 urlpatterns = [
-    path("list/<slug:Cslug>/",PostApi.as_view(),name="product-list"),
-    path("<slug:Pslug>/",PostDetailApi.as_view(),name="product-detail"),
-    path("<slug:Pslug>/reaction/",ReactionApi.as_view(),name="product-reaction"),
+    path("<slug:Cslug>/list/<int:id>/",PostApi.as_view(),name="product-list"),
+    path("<slug:Pslug>/detail/",PostDetailApi.as_view(),name="product-detail"),
+    path("<slug:Pslug>/reaction/",include("Ecommerce_App.Like.urls")),
+    path("<slug:Pslug>/comment/",include("Ecommerce_App.Comment.urls")),
     
         
 ]

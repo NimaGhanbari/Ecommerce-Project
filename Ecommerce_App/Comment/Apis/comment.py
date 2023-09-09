@@ -45,3 +45,9 @@ class CommentApi(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response({"create": "Your comment has been successfully saved"}, status=status.HTTP_201_CREATED)
+    
+    def delete(self,request,Pslug):
+        #در این قسمت باید احراز هویت حتما جک شود
+        product = get_object_or_404(Products, slug=Pslug)
+        product.comments.filter(author= request.user).delete()
+        return Response({"delete":"ok , deleted"},status=status.HTTP_204_NO_CONTENT)

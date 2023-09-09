@@ -5,13 +5,21 @@ from Ecommerce_App.Commons.models import BaseModel
 
 
 class Category(BaseModel):
+    
+    PRODUCT = "1"
+    QUESTION = "2"
+    CATEGORY_CHOICES = (
+        (PRODUCT,_('PRODUCT')),
+        (QUESTION,_('QUESTION'))
+    )
+    
     title = models.CharField(verbose_name=_("title"),max_length=50)
     description = models.TextField(verbose_name=_("description"),blank=True)
     avatar = models.ImageField(verbose_name=_("avatar"),blank=True,upload_to='categories')
     is_active = models.BooleanField(verbose_name=_("is enable"),default=True)
     parent = models.ForeignKey('self',verbose_name=_("parent"),blank=True,null=True, on_delete= models.CASCADE)
     slug = models.SlugField(primary_key=True, max_length=100)
-    code = models.PositiveIntegerField()
+    type = models.CharField(choices=CATEGORY_CHOICES,max_length=15)
     class Meta:
         db_table = "categories"
         verbose_name = _("category")

@@ -5,5 +5,4 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/',include("Ecommerce_App.Product.urls")),
-    path("comment/",include("Ecommerce_App.Comment.urls")),
 ]
