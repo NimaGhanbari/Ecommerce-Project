@@ -5,14 +5,16 @@ from rest_framework import status
 from Ecommerce_App.Category.models import Category
 from Ecommerce_App.Product.models import Products
 from django.shortcuts import get_object_or_404
-from Ecommerce_App.Product.services.product_ser import Sort_By
+from Ecommerce_App.Product.services.product_ser import Sort_By,FileSerializer
 from Ecommerce_App.Category.services.category_ser import is_subcategory
+from Ecommerce_App.PostFiles.models import Post_File
 class PostApi(APIView):
     
     class OutPutSerializer(serializers.ModelSerializer):
+        files = FileSerializer(many=True)
         class Meta:
             model = Products
-            fields = ("title","price","slug","is_enable")
+            fields = ("title","price","slug","is_enable","files")
     
     class CategorySerializer(serializers.ModelSerializer):
         class Meta:
@@ -39,12 +41,13 @@ class PostApi(APIView):
             
             
 class PostDetailApi(APIView):
-    
+           
     class OutPutSerializer(serializers.ModelSerializer):
         categories = PostApi.CategorySerializer(many=True)
+        files = FileSerializer(many=True)
         class Meta:
             model = Products
-            fields = ("title","description","price","slug","categories","is_enable","uniqe_code","count_reactions","created_at","updated_at")
+            fields = ("title","description","price","slug","categories","is_enable","uniqe_code","count_reactions","files","created_at","updated_at")
     
     def get(self,request,Pslug):
         product = get_object_or_404(Products,slug=Pslug,is_enable=True)

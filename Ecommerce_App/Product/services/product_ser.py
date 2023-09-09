@@ -1,3 +1,6 @@
+from rest_framework import serializers
+from Ecommerce_App.PostFiles.models import Post_File
+
 
 def bubblesort(elements):
     for n in range(len(elements)-1, 0, -1):
@@ -43,3 +46,16 @@ def Sort_By(elements,by=4):
         for x in elements:
             print(x.created_at)
         return elements
+    
+    
+    
+    
+    
+class FileSerializer(serializers.ModelSerializer):
+        file_type = serializers.SerializerMethodField()
+        class Meta:
+            model = Post_File
+            fields = ('title','fil','file_type')
+        
+        def get_file_type(self,obj):
+            return obj.get_file_type_display() 
