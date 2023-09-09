@@ -22,6 +22,7 @@ LOCAL_APPS = [
     'Ecommerce_App.Category.apps.CategoryConfig',
     'Ecommerce_App.Comment.apps.CommentConfig',
     'Ecommerce_App.Like.apps.LikeConfig',
+    'Ecommerce_App.PostFiles.apps.PostfilesConfig',
     
 ]
 
