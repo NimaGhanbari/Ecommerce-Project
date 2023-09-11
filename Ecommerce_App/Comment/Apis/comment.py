@@ -6,9 +6,6 @@ from Ecommerce_App.Product.models import Products
 from django.shortcuts import get_object_or_404
 from Ecommerce_App.Comment.models import Comment
 from Ecommerce_App.Comment.services.comment import create_comment
-# گت >>>  اسم محصول بگیرد یا اسلاگ و کامنت های اون محصول رو برگردوند
-# پست  <<<<  کاربر میخواهد یک کامنت اضافه کند
-
 
 class CommentApi(APIView):
 
@@ -24,30 +21,40 @@ class CommentApi(APIView):
             fields = ("text",)
 
     def get(self, request, Pslug):
+        #This function returns the comments of a product.
         product = get_object_or_404(Products, slug=Pslug)
         comments = product.comments
         return Response(self.OutPutSerializer(comments, many=True, context={"request": request}).data, status=status.HTTP_200_OK)
         #return Response({"not found": "This product has no comments"}, status=status.HTTP_404_NOT_FOUND)
+        
     def post(self, request, Pslug):
         # در این قسمت باید احراز هویت حتما جک شود
+        # In this section, you can check the comments and if there is no problem,
+        # that comment can be registered
+        
         serializer = self.InPutSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         product = get_object_or_404(Products, slug=Pslug)
         try:
-            com = create_comment(
-                author=request.user,
-                text=serializer.validated_data.get("text"),
-                product=product
-            )
-        except Exception as ex:
-            return Response(
-                {"detail": "Database Error - " + str(ex)},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            Comment.objects.get(author=request.user,product= product)
+            return Response({"detail":"You have already commented on this product"},status=status.HTTP_400_BAD_REQUEST)
+        except Comment.DoesNotExist: 
+            try:
+                com = create_comment(
+                    author=request.user,
+                    text=serializer.validated_data.get("text"),
+                    product=product
+                )
+            except Exception as ex:
+                return Response(
+                    {"detail": "Database Error - " + str(ex)},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         return Response({"create": "Your comment has been successfully saved"}, status=status.HTTP_201_CREATED)
     
     def delete(self,request,Pslug):
         #در این قسمت باید احراز هویت حتما جک شود
+        #This function causes the comment of that person to be deleted
         product = get_object_or_404(Products, slug=Pslug)
         product.comments.filter(author= request.user).delete()
         return Response({"delete":"ok , deleted"},status=status.HTTP_204_NO_CONTENT)

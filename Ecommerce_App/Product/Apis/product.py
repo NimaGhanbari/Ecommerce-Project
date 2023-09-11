@@ -21,21 +21,24 @@ class PostApi(APIView):
             model = Category
             fields = ("title","avatar","slug")
     
-    def get(self,request,Cslug,id):
+    def get(self,request,Cslug):
         """
-        This function takes a slug and finds the category.
-        If it has subcategories, it returns them, and if it doesn't,
-        it returns the products based on the newest by default.
+        This function displays products without any filter or returns subcategories
         """
         categor = get_object_or_404(Category,slug=Cslug,is_active=True)
-        result = is_subcategory(categor)
+        result = is_subcategory(categor,"1")
         if result.count() != 0:
             print("*"*100)
             return Response(self.CategorySerializer(result,many=True, context={"request":request}).data)
         else:
             print("/"*100)
-            products = Sort_By(list(Products.objects.filter(categories=categor)),by=id)
+            products = Products.objects.filter(categories=categor)
             return Response(self.OutPutSerializer(products,many=True,context={"request":request}).data)
+        
+    def post(self,request,Cslug):
+        #در این قسمت نمایش محصولات بر اساس فیلتر نمایش داده میشود
+        
+        pass
     
         
             

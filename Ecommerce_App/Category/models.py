@@ -8,9 +8,11 @@ class Category(BaseModel):
     
     PRODUCT = "1"
     QUESTION = "2"
+    BRAND = "3"
     CATEGORY_CHOICES = (
         (PRODUCT,_('PRODUCT')),
-        (QUESTION,_('QUESTION'))
+        (QUESTION,_('QUESTION')),
+        (BRAND,_('BRAND'))
     )
     
     title = models.CharField(verbose_name=_("title"),max_length=50)
