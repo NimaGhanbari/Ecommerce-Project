@@ -1,5 +1,6 @@
 from pathlib import Path
-from Ecommerce.settings_project import local_settings
+from Ecommerce.settings_project import local_settings,restframework_set
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,10 +17,19 @@ DEBUG = local_settings.DEB
 ALLOWED_HOSTS = local_settings.ALLOWEDHOSTS
 
 LOCAL_APPS = [
+    'Ecommerce_App.Product.apps.ProductConfig',
+    'Ecommerce_App.Commons.apps.CommonsConfig',
+    'Ecommerce_App.Category.apps.CategoryConfig',
+    'Ecommerce_App.Comment.apps.CommentConfig',
+    'Ecommerce_App.Like.apps.LikeConfig',
+    'Ecommerce_App.PostFiles.apps.PostfilesConfig',
     
 ]
 
 THIRD_PARTY_APPS = [
+    'rest_framework',
+    'nested_admin',
+    'django_filters',
     
 ]
 
@@ -126,3 +136,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

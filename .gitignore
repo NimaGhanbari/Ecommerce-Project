@@ -270,3 +270,4 @@ pyrightconfig.json
 #---------------------------------------------------------------------#
 EcommerceVenv
 .vscode 
+migrations
