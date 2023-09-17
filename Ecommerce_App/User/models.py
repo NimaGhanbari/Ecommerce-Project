@@ -3,12 +3,12 @@ from django.utils.translation import gettext_lazy as _
 from django.core import validators
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, send_mail,BaseUserManager
-
+from Ecommerce_App.User.services.validators import ValidatorPhoneNumber
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, username, phone_number, email, password, is_staff, is_superuser, **extra_fields):
+    def _create_user(self, phone_number, email, password, is_staff, is_superuser, **extra_fields):
         """
         Create and save a user with the given username, email, and password.
         """
@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
         #    email = phone_number
         #else:
         #    phone_number = email
-        email = self.normalize_email(email)
+        #email = self.normalize_email(email)
         # Lookup the real model class from the global app registry so this
         # manager method can be used in migrations. This is fine because
         # managers are by definition working on the real model.
@@ -27,12 +27,12 @@ class UserManager(BaseUserManager):
                           is_staff=is_staff,
                           is_superuser=is_superuser,
                           date_joined=now,
-                          username=username,
                           email=email,
                           **extra_fields)
 
         # user.password = make_password(password)
         # user.save(using=self._db)
+        
         if not extra_fields.get('no_password'):
             user.set_password(password)
 
@@ -41,14 +41,15 @@ class UserManager(BaseUserManager):
 
     def create_user(self, phone_number=None, password=None, **extra_fields):
         
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(phone_number, password, is_staff, is_superuser, **extra_fields)
+        is_staff = False
+        is_superuser= False
+        email= None
+        return self._create_user(phone_number, password, email, is_staff, is_superuser, **extra_fields)
 
     def create_superuser(self, phone_number, email, password, **extra_fields):
         
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+        is_staff = True
+        is_superuser= True
         return self._create_user(phone_number, email, password, is_staff, is_superuser, **extra_fields)
 
     def get_by_phone_number(self, phone_number):
@@ -57,20 +58,10 @@ class UserManager(BaseUserManager):
 
 
 class BaseUser(AbstractBaseUser, PermissionsMixin):
-    # username = models.CharField(
-    #    verbose_name= _('username'),
-    #    max_length=64,
-    #    unique=True,
-    #    help_text=_(
-    #        'Required. 32 characters or fewer. Letters, digits and . _ only.'),
-    #    error_messages={
-    #        'unique': _("A user with that username already exists."),
-    #    },)
     phone_number = models.BigIntegerField(
         _('phone number'),
         unique=True,
-        validators=[validators.RegexValidator(
-            r'^09[0-3,9]\d{8}$', _('Enter a valid number phone'), 'invalid')],
+        validators=[ValidatorPhoneNumber],
         error_messages={
             'unique': _("A user with that phone number already exists."),
         },
