@@ -69,7 +69,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
     )
     #optional
     name = models.CharField(
-        _('first name'), max_length=64, blank=True, null=True)
+        _('name'), max_length=64, blank=True, null=True)
     email = models.EmailField(
         _('email address'), unique=True, null=True, blank=True)
     nick_name = models.CharField(verbose_name=_('nick name'),max_length=150,blank=True,null=True)
@@ -119,3 +119,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
         if self.email is not None and self.email.strip() == '':
             self.email = None
         super().save(*args, **kwargs)
+        
+    def __str__(self):
+        return str(self.phone_number)
+    
