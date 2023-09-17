@@ -8,7 +8,7 @@ User = get_user_model()
 
 class MyUserAdmin(UserAdmin):
     fieldsets = (
-        (_('personal info'), {"fields": ('phone_number', 'password', 'name', 'email')}),
+        (_('personal info'), {"fields": ('phone_number', 'password', 'name', 'email','nick_name','avatar','birthday','gender')}),
         (_('permissions'), {"fields": ('is_active', 'is_staff','is_superuser', 'user_permissions')}),
         (_('important dates'), {"fields": ('date_joined',)}),
     )
