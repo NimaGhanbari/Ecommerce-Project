@@ -25,7 +25,7 @@ LOCAL_APPS = [
     'Ecommerce_App.PostFiles.apps.PostfilesConfig',
     'Ecommerce_App.User.apps.UserConfig',
     'Ecommerce_App.Authentication.apps.AuthenticationConfig',
-    
+    'Ecommerce_App.Address.apps.AddressConfig',
     
 ]
 
