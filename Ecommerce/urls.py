@@ -6,4 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/',include("Ecommerce_App.Product.urls")),
     path('auth/',include("Ecommerce_App.Authentication.urls")),
+    path('user/',include("Ecommerce_App.User.urls")),
 ]
