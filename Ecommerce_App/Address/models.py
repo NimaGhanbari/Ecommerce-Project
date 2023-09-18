@@ -9,9 +9,15 @@ class Address(BaseModel):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     latitude = models.FloatField()
     longitude = models.FloatField()
-    zipcode = models.IntegerField(verbose_name=_("zipcode"))
+    zipcode = models.BigIntegerField(verbose_name=_("zipcode"))
+    Plaque = models.PositiveIntegerField(verbose_name=_("Plaque"),blank=True,null=True)
     
     class Meta:
         db_table = "Address"
         verbose_name = _("Address")
         verbose_name_plural = _("Address")
+        
+    def __str__(self):
+        #better return address instead zipcode
+        return str(self.zipcode)
+    

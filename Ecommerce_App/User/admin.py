@@ -4,9 +4,10 @@ from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 User = get_user_model()
+from Ecommerce_App.Address.admin import Address_admin
+from nested_admin import NestedModelAdmin
 
-
-class MyUserAdmin(UserAdmin):
+class MyUserAdmin(UserAdmin,NestedModelAdmin):
     fieldsets = (
         (_('personal info'), {"fields": ('phone_number', 'password', 'name', 'email','nick_name','avatar','birthday','gender')}),
         (_('permissions'), {"fields": ('is_active', 'is_staff','is_superuser', 'user_permissions')}),
@@ -24,7 +25,8 @@ class MyUserAdmin(UserAdmin):
     search_fields = ('phone_number__exact',)
     ordering = ('id',)
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'date_joined')
-
+    inlines = [Address_admin,]
+    
     def email_view(self, obj):
         return obj.email
     email_view.empty_value_display = 'No known email'

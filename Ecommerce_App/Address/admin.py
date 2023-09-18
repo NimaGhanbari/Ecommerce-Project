@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import Address
+from nested_admin import NestedStackedInline
 
-# Register your models here.
+
+class Address_admin(NestedStackedInline):
+    model = Address
+    list_display = ['user','created_at','updated_at']
+    extra = 0
