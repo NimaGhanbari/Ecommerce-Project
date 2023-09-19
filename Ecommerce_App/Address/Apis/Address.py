@@ -7,10 +7,17 @@ from django.shortcuts import get_list_or_404
 from geopy.geocoders import Nominatim
 from django.http import JsonResponse
 import json
+from Ecommerce_App.Address.services.address import Create_Address
 
 
 class AddressApi(APIView):
     #کاربر باید احراز هویت بکند
+    
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Address
+            fields = ('latitude','longitude','zipcode','Plaque')
+    
     def get(self,request):
         Addresses = get_list_or_404(Address,user=request.user)
         geolocator = Nominatim(user_agent="Address")
@@ -27,7 +34,18 @@ class AddressApi(APIView):
 
     
     def post(self,request):
-        pass
+        serialize = self.OutputSerializer(data=request.data)
+        if serialize.is_valid():
+            
+            new_address = Create_Address(user=request.user,
+                                         latitude=serialize.validated_data.get("latitude"),
+                                         longitude=serialize.validated_data.get("longitude"),
+                                         zipcode=serialize.validated_data.get("zipcode"),
+                                         Plaque=serialize.validated_data.get("Plaque")
+                                         )
+            return Response({"detail":"OK"},status=status.HTTP_201_CREATED)
+        else:
+            return Response({"detail":"not valid"})
     
     def delete(self,request):
         pass
