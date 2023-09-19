@@ -7,8 +7,8 @@ def Create_Address(*, user, latitude, longitude, zipcode, Plaque) -> Address:
     return address
 
 
-def Update_Address(serialize, pk):
-    new_Address = Address.objects.filter(id=pk).update(latitude=serialize.validated_data.get('latitude'),
+def Update_Address(serialize, pk,request):
+    new_Address = Address.objects.filter(id=pk,user=request.user).update(latitude=serialize.validated_data.get('latitude'),
                                                        longitude=serialize.validated_data.get(
                                                            'longitude'),
                                                        zipcode=serialize.validated_data.get(
