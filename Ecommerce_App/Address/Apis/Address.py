@@ -7,7 +7,7 @@ from django.shortcuts import get_list_or_404
 from geopy.geocoders import Nominatim
 from django.http import JsonResponse
 import json
-from Ecommerce_App.Address.services.address import Create_Address
+from Ecommerce_App.Address.services.address import Create_Address,Update_Address
 
 
 class AddressApi(APIView):
@@ -16,7 +16,7 @@ class AddressApi(APIView):
     class OutputSerializer(serializers.ModelSerializer):
         class Meta:
             model = Address
-            fields = ('latitude','longitude','zipcode','Plaque')
+            fields = ('id','latitude','longitude','zipcode','Plaque')
     
     def get(self,request):
         Addresses = get_list_or_404(Address,user=request.user)
@@ -51,5 +51,13 @@ class AddressApi(APIView):
         pass
     
     def put(self,request):
-        pass
-
+        serialize = self.OutputSerializer(data=request.data)
+        pk = serialize.initial_data["id"]
+        if serialize.is_valid():
+            try:
+                New_Address = Update_Address(serialize=serialize,pk=pk)
+                return Response({"detail":"OK"},status=status.HTTP_200_OK)
+            except Exception as ex:
+                return Response({"detail":f"ERROR: {ex}"})
+        else:
+            return Response({"detail":"not valid"})
