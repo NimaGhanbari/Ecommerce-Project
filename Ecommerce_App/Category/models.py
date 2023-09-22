@@ -21,7 +21,7 @@ class Category(BaseModel):
     is_active = models.BooleanField(verbose_name=_("is enable"),default=True)
     parent = models.ForeignKey('self',verbose_name=_("parent"),blank=True,null=True, on_delete= models.CASCADE)
     slug = models.SlugField(primary_key=True, max_length=100)
-    type = models.CharField(choices=CATEGORY_CHOICES,max_length=15)
+    type = models.CharField(choices=CATEGORY_CHOICES,max_length=15,default=PRODUCT)
     class Meta:
         db_table = "categories"
         verbose_name = _("category")

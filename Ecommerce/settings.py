@@ -1,5 +1,6 @@
 from pathlib import Path
-from Ecommerce.settings_project import local_settings,restframework_set
+from Ecommerce.settings_project import local_settings
+from Ecommerce.settings_project.restframework_set import *
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,9 +50,10 @@ DJANGO_APPS = [
 # Application definition
 
 INSTALLED_APPS = [
+    *LOCAL_APPS,
     *DJANGO_APPS,
-    *THIRD_PARTY_APPS,
-    *LOCAL_APPS
+    *THIRD_PARTY_APPS
+    
 ]
 
 MIDDLEWARE = [
