@@ -8,7 +8,7 @@ from Ecommerce_App.User.services.validators import ValidatorPhoneNumber
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, phone_number, email, password, is_staff, is_superuser, **extra_fields):
+    def _create_user(self, phone_number, password, email, is_staff, is_superuser, **extra_fields):
         """
         Create and save a user with the given username, email, and password.
         """
@@ -39,7 +39,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, phone_number=None, password=None, **extra_fields):
+    def create_user(self, phone_number, password , **extra_fields):
         
         is_staff = False
         is_superuser= False

@@ -64,7 +64,6 @@ class AddressApi(APIView):
     def put(self,request,pk):
         serialize = self.OutputSerializer(data=request.data)
         #pk = serialize.initial_data["id"]
-        print(pk)
         if serialize.is_valid():
             try:
                 New_Address = Update_Address(serialize=serialize,pk=pk,request=request)
