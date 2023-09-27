@@ -5,25 +5,45 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.core.cache import cache
 from rest_framework_simplejwt.tokens import RefreshToken
+from kavenegar import *
+import json
+from Ecommerce.settings_project import local_settings
 from django.contrib.auth import get_user_model
+
 
 User = get_user_model()
 
 
 def SendSMS(phone, message):
+    try:
+        api = KavenegarAPI(local_settings.KAVENEGAR_KEY)
+        params = {
+            #Because we are in the development environment, there is no sender
+            'sender': local_settings.SENDER,
+            'receptor': f'{phone}',
+            'message': f'{message}'
+        }   
+        result = api.sms_send(params)
+        
+    except APIException as e:
+            print(str(e))
+            return e
+    except HTTPException as e:
+            print(str(e))
+            return e
     print(message)
     return None
+    
 
 
 def SendCode(phone):
     randcode = random.randint(10000, 99999)
     # randcode = uuid.uuid4().hex
     cache.set(str(phone), str(randcode), 3*60)
-    message = f"کد تایید: {randcode}"
-    try:
-        return SendSMS(phone=phone, message=message)
-    except Exception as ex:
-        return ex
+    message = f"""کد تایید:{randcode}
+    شرکت تجارت الکترونیک """
+    return SendSMS(phone=phone, message=message)
+    
 
 
 def check(serialize):
