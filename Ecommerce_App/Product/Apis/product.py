@@ -5,9 +5,10 @@ from rest_framework import status
 from Ecommerce_App.Category.models import Category
 from Ecommerce_App.Product.models import Products
 from django.shortcuts import get_object_or_404
-from Ecommerce_App.Product.services.product_ser import Sort_By,FileSerializer
+from Ecommerce_App.Product.services.product_ser import Sort_By,FileSerializer,Filtering,Ordering
 from Ecommerce_App.Category.services.category_ser import is_subcategory
 from Ecommerce_App.PostFiles.models import Post_File
+
 class PostApi(APIView):
     
     class OutPutSerializer(serializers.ModelSerializer):
@@ -28,17 +29,13 @@ class PostApi(APIView):
         categor = get_object_or_404(Category,slug=Cslug,is_active=True)
         result = is_subcategory(categor,"1")
         if result.count() != 0:
-            print("*"*100)
             return Response(self.CategorySerializer(result,many=True, context={"request":request}).data)
         else:
-            print("/"*100)
             products = Products.objects.filter(categories=categor)
-            return Response(self.OutPutSerializer(products,many=True,context={"request":request}).data)
+            product_filter = Filtering(request,products)
+            product_Order = Ordering(request,product_filter)
+            return Response(self.OutPutSerializer(product_Order,many=True,context={"request":request}).data)
         
-    def post(self,request,Cslug):
-        #در این قسمت نمایش محصولات بر اساس فیلتر نمایش داده میشود
-        
-        pass
     
         
             

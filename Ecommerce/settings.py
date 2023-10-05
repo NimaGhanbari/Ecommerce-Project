@@ -1,5 +1,6 @@
 from pathlib import Path
-from Ecommerce.settings_project import local_settings,restframework_set
+from Ecommerce.settings_project import local_settings
+from Ecommerce.settings_project.restframework_set import *
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,6 +24,9 @@ LOCAL_APPS = [
     'Ecommerce_App.Comment.apps.CommentConfig',
     'Ecommerce_App.Like.apps.LikeConfig',
     'Ecommerce_App.PostFiles.apps.PostfilesConfig',
+    'Ecommerce_App.User.apps.UserConfig',
+    'Ecommerce_App.Authentication.apps.AuthenticationConfig',
+    'Ecommerce_App.Address.apps.AddressConfig',
     
 ]
 
@@ -30,6 +34,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'nested_admin',
     'django_filters',
+    'rest_framework_simplejwt',
     
 ]
 
@@ -45,9 +50,10 @@ DJANGO_APPS = [
 # Application definition
 
 INSTALLED_APPS = [
+    *LOCAL_APPS,
     *DJANGO_APPS,
-    *THIRD_PARTY_APPS,
-    *LOCAL_APPS
+    *THIRD_PARTY_APPS
+    
 ]
 
 MIDDLEWARE = [
@@ -139,3 +145,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+AUTH_USER_MODEL = 'User.BaseUser'
