@@ -1,18 +1,15 @@
+# Python 
+import os
 from pathlib import Path
+
 from Ecommerce.settings_project import local_settings
 from Ecommerce.settings_project.restframework_set import *
-import os
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = local_settings.SECRETKEY
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = local_settings.DEB
 
 ALLOWED_HOSTS = local_settings.ALLOWEDHOSTS
@@ -89,7 +86,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -100,7 +96,6 @@ DATABASES = {
         'PORT': local_settings.PORT_DB,
     }
 }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -118,10 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -132,14 +123,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
