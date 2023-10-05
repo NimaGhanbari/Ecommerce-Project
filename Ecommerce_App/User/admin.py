@@ -1,16 +1,26 @@
+# Django
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-User = get_user_model()
+
+# Local
 from Ecommerce_App.Address.admin import Address_admin
+
+# Third Party
 from nested_admin import NestedModelAdmin
 
-class MyUserAdmin(UserAdmin,NestedModelAdmin):
+
+User = get_user_model()
+
+
+class MyUserAdmin(UserAdmin, NestedModelAdmin):
     fieldsets = (
-        (_('personal info'), {"fields": ('phone_number', 'password', 'name', 'email','nick_name','avatar','birthday','gender')}),
-        (_('permissions'), {"fields": ('is_active', 'is_staff','is_superuser', 'user_permissions')}),
+        (_('personal info'), {"fields": ('phone_number', 'password',
+         'name', 'email', 'nick_name', 'avatar', 'birthday', 'gender')}),
+        (_('permissions'), {"fields": ('is_active',
+         'is_staff', 'is_superuser', 'user_permissions')}),
         (_('important dates'), {"fields": ('date_joined',)}),
     )
 
@@ -26,7 +36,7 @@ class MyUserAdmin(UserAdmin,NestedModelAdmin):
     ordering = ('id',)
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'date_joined')
     inlines = [Address_admin,]
-    
+
     def email_view(self, obj):
         return obj.email
     email_view.empty_value_display = 'No known email'

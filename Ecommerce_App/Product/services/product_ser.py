@@ -1,7 +1,10 @@
+# REST Framework
 from rest_framework import serializers
-from Ecommerce_App.PostFiles.models import Post_File
 from rest_framework.response import Response
 from rest_framework import status
+
+# Local
+from Ecommerce_App.PostFiles.models import Post_File
 
 
 def Filtering(request, products):
@@ -12,8 +15,6 @@ def Filtering(request, products):
 
     if brand:
         try:
-            #products = list(filter(lambda product: product.get(
-            #    'categories') == brand, products))
             products = products.filter(categories=brand)
         except Exception as ex:
             return Response({f"detail": "category is not valid - {ex}"}, status=status.HTTP_400_BAD_REQUEST)
@@ -23,20 +24,20 @@ def Filtering(request, products):
         #    if product.price > price_min and product.price < price_max:
         #        temp.append(product)
         # products = temp
-        
-        #products = list(filter(lambda product: product.get(
-        #    'price') > price_min and product.get('price') < price_max, products))
-        if price_max ==None or price_max == None:
-            return Response({"detail":"price min or price max is not valid"},status=status.HTTP_400_BAD_REQUEST)
-        
-        products = products.filter(price__range=[price_min,price_max])
 
-        #return Response({f"detail": "price is not valid - {ex}"}, status=status.HTTP_400_BAD_REQUEST)
+        # products = list(filter(lambda product: product.get(
+        #    'price') > price_min and product.get('price') < price_max, products))
+        if price_max == None or price_max == None:
+            return Response({"detail": "price min or price max is not valid"}, status=status.HTTP_400_BAD_REQUEST)
+
+        products = products.filter(price__range=[price_min, price_max])
+
+        # return Response({f"detail": "price is not valid - {ex}"}, status=status.HTTP_400_BAD_REQUEST)
     # if new:
     #    products = Sort_By(products,by=4)
     if is_enable:
         try:
-            #products = list(
+            # products = list(
             #    filter(lambda product: product.get('is_enable') == True, products))
             products = products.filter(is_enable=True)
         except Exception as ex:
@@ -60,7 +61,7 @@ def bubblesort(elements):
     for n in range(len(elements)-1, 0, -1):
         for i in range(n):
             if elements[i].created_at < elements[i + 1].created_at:
-                elements[i] , elements[i + 1] = elements[i + 1],elements[i]
+                elements[i], elements[i + 1] = elements[i + 1], elements[i]
 
     return elements
 
@@ -78,8 +79,8 @@ def selectionSortP(elements):
     return elements
 
 
-def selectionSort(elements,id):
-    size =len(elements)
+def selectionSort(elements, id):
+    size = len(elements)
     for ind in range(size):
         min_index = ind
         for j in range(ind + 1, size):
@@ -91,7 +92,8 @@ def selectionSort(elements,id):
                 if elements[j].price < elements[min_index].price:
                     min_index = j
         # swapping the elements to sort the array
-        (elements[ind], elements[min_index]) = (elements[min_index], elements[ind])
+        (elements[ind], elements[min_index]) = (
+            elements[min_index], elements[ind])
     return elements
 
 
@@ -109,25 +111,25 @@ def Sort_By(elements, by=4):
         return selectionSort(elements=elements, id=by)
     elif by == 3:
         return selectionSort(elements=elements, id=by)
-    elif by == 4: 
+    elif by == 4:
         return bubblesort(elements=elements)
 
 
 def Ordering(request, products):
     new = request.GET.get('new')
     popular = request.GET.get('popular')
-    #most visited
-    #best seller
+    # most visited
+    # best seller
     Inexpensive = request.GET.get('Inexpensive')
     Expensive = request.GET.get('Expensive')
-    
+
     if new:
-        return Sort_By(list(products),4)
+        return Sort_By(list(products), 4)
     if popular:
-        return Sort_By(list(products),0)
+        return Sort_By(list(products), 0)
     if Inexpensive:
-        return Sort_By(list(products),3)
+        return Sort_By(list(products), 3)
     if Expensive:
-        return Sort_By(list(products),2)
+        return Sort_By(list(products), 2)
 
     return products
