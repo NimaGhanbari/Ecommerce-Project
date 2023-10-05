@@ -1,5 +1,10 @@
+# Django
 from django.contrib import admin
+
+# Local
 from .models import Comment
+
+#Third Party
 from nested_admin import NestedStackedInline
 
 

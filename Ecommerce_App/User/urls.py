@@ -1,7 +1,7 @@
-from django.urls import path,include
+from django.urls import path, include
 
 
 urlpatterns = [
-    path('addresses/',include("Ecommerce_App.Address.urls")),
-    
+    path('addresses/', include("Ecommerce_App.Address.urls")),
+
 ]

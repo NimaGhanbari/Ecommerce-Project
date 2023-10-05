@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 
+# Local
 from Ecommerce.settings_project import local_settings
 from Ecommerce.settings_project.restframework_set import *
 
@@ -128,6 +129,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 AUTH_USER_MODEL = 'User.BaseUser'
