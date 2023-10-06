@@ -1,14 +1,15 @@
 # Local
 from Ecommerce_App.Address.models import Address
+from Ecommerce_App.User.models import BaseUser
 
 
-def Create_Address(*, user, latitude, longitude, zipcode, Plaque) -> Address:
+def Create_Address(*, user: BaseUser, latitude: float, longitude: float, zipcode: int, Plaque: int) -> Address:
     address = Address.objects.create(
         user=user, latitude=latitude, longitude=longitude, zipcode=zipcode, Plaque=Plaque)
     return address
 
 
-def Update_Address(serialize, pk, request):
+def Update_Address(serialize, pk: int, request) -> Address:
     new_Address = Address.objects.filter(id=pk, user=request.user).update(latitude=serialize.validated_data.get('latitude'),
                                                                           longitude=serialize.validated_data.get(
         'longitude'),
