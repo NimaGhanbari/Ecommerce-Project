@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 import random
 import uuid
 import json
+from typing import Dict
 
 # Third Party
 from kavenegar import *
@@ -22,7 +23,7 @@ from Ecommerce.settings_project import local_settings
 User = get_user_model()
 
 
-def SendSMS(phone, message):
+def SendSMS(phone: int, message: str) -> None | Exception:
     try:
         api = KavenegarAPI(local_settings.KAVENEGAR_KEY)
         params = {
@@ -43,7 +44,7 @@ def SendSMS(phone, message):
     return None
 
 
-def SendCode(phone):
+def SendCode(phone: int) -> None | Exception:
     randcode = random.randint(10000, 99999)
     cache.set(str(phone), str(randcode), 3*60)
     message = f"""کد تایید:{randcode}
@@ -51,7 +52,7 @@ def SendCode(phone):
     return SendSMS(phone=phone, message=message)
 
 
-def check(serialize):
+def check(serialize) -> None:
     code = cache.get(str(serialize.validated_data.get("phone_number")))
 
     if serialize.validated_data.get("sms_code") != code:
@@ -61,7 +62,7 @@ def check(serialize):
     return None
 
 
-def get_object_email(email, password):
+def get_object_email(email: str, password: str) -> None | User:
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
@@ -71,7 +72,7 @@ def get_object_email(email, password):
     return user
 
 
-def get_object_phone(phone_number, password):
+def get_object_phone(phone_number: int, password: str) -> None | User:
     try:
         user = User.objects.get(phone_number=phone_number)
     except User.DoesNotExist:
@@ -81,7 +82,7 @@ def get_object_phone(phone_number, password):
     return user
 
 
-def create_token(user):
+def create_token(user: User) -> Dict[str,str]:
     refresh = RefreshToken.for_user(user)
     return {
         'access_token': str(refresh.access_token),

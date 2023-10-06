@@ -1,7 +1,15 @@
+# Django 
+from django.contrib.auth import get_user_model
+
+# Local
 from Ecommerce_App.Comment.models import Comment
+from Ecommerce_App.Product.models import Products
 
 
-def create_comment(*, author, text, product) -> Comment:
+User = get_user_model()
+
+
+def create_comment(*, author: User, text: str, product: Products) -> Comment:
     com = Comment.objects.create(
         author=author, text=text, product=product
     )

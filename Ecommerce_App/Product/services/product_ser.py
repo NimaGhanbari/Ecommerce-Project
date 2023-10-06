@@ -1,3 +1,6 @@
+# Django
+from django.db.models import QuerySet
+
 # REST Framework
 from rest_framework import serializers
 from rest_framework.response import Response
@@ -5,13 +8,15 @@ from rest_framework import status
 
 # Local
 from Ecommerce_App.PostFiles.models import Post_File
+from Ecommerce_App.Product.models import Products
+from Ecommerce_App.Category.models import Category
 
 
-def Filtering(request, products):
-    brand = request.GET.get('brand')
-    price_max = request.GET.get('price_max')
-    price_min = request.GET.get('price_min')
-    is_enable = request.GET.get('is_enable')
+def Filtering(request, products: QuerySet[Products]):
+    brand: Category = request.GET.get('brand')
+    price_max: int = request.GET.get('price_max')
+    price_min: int = request.GET.get('price_min')
+    is_enable: bool = request.GET.get('is_enable')
 
     if brand:
         try:
@@ -57,7 +62,7 @@ class FileSerializer(serializers.ModelSerializer):
         return obj.get_file_type_display()
 
 
-def bubblesort(elements):
+def bubblesort(elements: QuerySet[Products]) -> QuerySet[Products]:
     for n in range(len(elements)-1, 0, -1):
         for i in range(n):
             if elements[i].created_at < elements[i + 1].created_at:
@@ -66,8 +71,8 @@ def bubblesort(elements):
     return elements
 
 
-def selectionSortP(elements):
-    size = len(elements)
+def selectionSortP(elements: QuerySet[Products]) -> QuerySet[Products]:
+    size: int = len(elements)
     for ind in range(size):
         min_index = ind
         for j in range(ind + 1, size):
@@ -79,8 +84,8 @@ def selectionSortP(elements):
     return elements
 
 
-def selectionSort(elements, id):
-    size = len(elements)
+def selectionSort(elements: QuerySet[Products], id: int) -> QuerySet[Products]:
+    size: int = len(elements)
     for ind in range(size):
         min_index = ind
         for j in range(ind + 1, size):
@@ -97,7 +102,7 @@ def selectionSort(elements, id):
     return elements
 
 
-def Sort_By(elements, by=4):
+def Sort_By(elements: QuerySet[Products], by: int = 4) -> QuerySet[Products]:
     # 0:محبوبترین
     # 1:پرفروشترین
     # 2:گرانترین
@@ -115,7 +120,7 @@ def Sort_By(elements, by=4):
         return bubblesort(elements=elements)
 
 
-def Ordering(request, products):
+def Ordering(request, products: QuerySet[Products]) -> QuerySet[Products]:
     new = request.GET.get('new')
     popular = request.GET.get('popular')
     # most visited

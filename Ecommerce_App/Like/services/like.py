@@ -1,12 +1,18 @@
+# Django
+from django.contrib.auth import get_user_model
+
 # REST Framework
 from rest_framework.response import Response
 from rest_framework import status
 
 # Local
 from Ecommerce_App.Like.models import Like
+from Ecommerce_App.Product.models import Products
+
+User = get_user_model()
 
 
-def create_like(*, user, product, value) -> Like | None:
+def create_like(*, user: User, product: Products, value: str) -> Like | None:
 
     try:
         like = Like.objects.get(user=user, product=product)
