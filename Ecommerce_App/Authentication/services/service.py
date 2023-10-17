@@ -36,7 +36,9 @@ def SendSMS(phone: int, message: str) -> None | Exception:
 
     except APIException as e:
         print(str(e))
-        return e
+        #باید خط پایین را از کامنت در بیاوریم و دو خط پایین را باید کامنت کنیم
+        #return e
+        return None
     except HTTPException as e:
         print(str(e))
         return e
@@ -49,6 +51,8 @@ def SendCode(phone: int) -> None | Exception:
     cache.set(str(phone), str(randcode), 3*60)
     message = f"""کد تایید:{randcode}
     شرکت تجارت الکترونیک """
+    #خط پایین باید پاک شود
+    print(message)
     return SendSMS(phone=phone, message=message)
 
 

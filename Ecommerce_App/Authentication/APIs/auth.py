@@ -25,16 +25,18 @@ class InitialAuth(APIView):
         phonemail = serializers.CharField()
 
     def get(self, request):
+        # یک فرم که یا شماره تلفن یا ایمیل را دریافت کندو به تابع پایین با متد پست بفرستد
         return Response({"detail": "Please enter your phone number or email"})
 
     def post(self, request):
         serialize = self.OutputSerializer(data=request.data)
+        # این قسمت اصلاح شود که در خط زیر ایمیل یا شماره را باید از طریق دیگری از سریالاز بگیریم
         phonemail = serialize.initial_data["phonemail"]
         if phonemail.isdigit():
             # if phonemail is number phone
             try:
                 User.objects.get(phone_number=phonemail)
-                return redirect("login_phone")
+                return redirect(f"/auth/loginp/{phonemail}/")
             except User.DoesNotExist:
                 result = SendCode(phone=phonemail)
                 if result != None:
@@ -42,15 +44,16 @@ class InitialAuth(APIView):
                     return Response({"detail": f"ERROR: {result}"}, status=status.HTTP_400_BAD_REQUEST)
                 else:
                     messages.success(request, "The code has been sent to you")
-                    return redirect("create_user")
+                    return redirect(f"/auth/create/{phonemail}/")
         else:
             # if phonemail is email
             try:
                 User.objects.get(email=phonemail)
-                return redirect("login_email")
+                return redirect(f"/auth/logine/{phonemail}/")
             except User.DoesNotExist:
                 messages.warning(
                     request, "There is no user with the entered email.If you want to enter the system for the first time, use the phone number.")
+                print("There is no user with the entered email.If you want to enter the system for the first time, use the phone number.")
                 return redirect("initial")
 
 
@@ -63,7 +66,8 @@ class Create(APIView):
         confirm_password = serializers.CharField()
         sms_code = serializers.CharField()
 
-    def get(self, request):
+    def get(self, request,phone):
+        #یک فرم که کد و پسورد و تایید پسورد را دریافت کند و با شماره تلفن که هاید بود برای تابع پاینن ارسال شود
         return Response({"detail": "Please send the phone_number, sms_code, password and confirm_password"})
 
     def post(self, request):
@@ -89,7 +93,8 @@ class LoginEmail(APIView):
         email = serializers.EmailField()
         password = serializers.CharField()
 
-    def get(self, request):
+    def get(self, request,email):
+        # در این قسمت یک فرمی که پسورد را دریافت کندو ایمیلی که هاید هست به ادرس زیر ارسال شود
         return Response({"detail": "Please send email and password."})
 
     def post(self, request):
@@ -113,9 +118,11 @@ class LoginPhone(APIView):
         phone_number = serializers.CharField()
         password = serializers.CharField()
 
-    def get(self, request):
-        return Response({"detail": "Please send phone_number and password."})
-
+    # localhost:8000/auth/loginp/<str:phone>/
+    def get(self, request,phone):
+        #یک فرم که پسورد را دریافت کند و با شماره تلفن که هاید بود برای تابع پاینن ارسال شود
+        return Response({"detail": "Please send password."})
+    # localhost:8000/auth/loginp/
     def post(self, request):
         serialize = self.OutputSerializer(data=request.data)
         if serialize.is_valid(raise_exception=True):
