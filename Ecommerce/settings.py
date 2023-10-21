@@ -25,6 +25,7 @@ LOCAL_APPS = [
     'Ecommerce_App.User.apps.UserConfig',
     'Ecommerce_App.Authentication.apps.AuthenticationConfig',
     'Ecommerce_App.Address.apps.AddressConfig',
+    'Ecommerce_App.Cart.apps.CartConfig',
     
 ]
 
