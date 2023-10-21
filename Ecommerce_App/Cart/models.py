@@ -16,3 +16,11 @@ class Cart(BaseModel):
     count = models.PositiveIntegerField(verbose_name=_("count"),default=1)
     # create time
     # update time
+    
+    class Meta:
+        db_table = "Carts"
+        verbose_name = _("Cart")
+        verbose_name_plural = _("Carts")
+
+    def __str__(self):
+        return "محصول ذخیره شده در سبد کالا"

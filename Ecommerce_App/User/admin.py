@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 
 # Local
 from Ecommerce_App.Address.admin import Address_admin
+from Ecommerce_App.Cart.admin import Carts_admin
 
 # Third Party
 from nested_admin import NestedModelAdmin
@@ -35,7 +36,7 @@ class MyUserAdmin(UserAdmin, NestedModelAdmin):
     search_fields = ('phone_number__exact',)
     ordering = ('id',)
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'date_joined')
-    inlines = [Address_admin,]
+    inlines = [Address_admin,Carts_admin]
 
     def email_view(self, obj):
         return obj.email

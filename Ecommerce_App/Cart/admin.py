@@ -1,3 +1,12 @@
-from django.contrib import admin
+# Local
+from .models import Cart
 
-# Register your models here.
+#Third Party
+from nested_admin import NestedStackedInline
+
+class Carts_admin(NestedStackedInline):
+    model = Cart
+    readonly_fields = ('user', 'product', 'count')
+    extra = 0
+
+
