@@ -45,12 +45,12 @@ class InitialAuth(APIView):
                     else:
                         messages.success(
                             request, "The code has been sent to you")
-                        return redirect("create_user")
+                        return redirect(f"/auth/create/{phonemail}")
             else:
                 # if phonemail is email
                 try:
                     User.objects.get(email=phonemail)
-                    return redirect("login_email")
+                    return redirect(f"/auth/logine/{phonemail}")
                 except User.DoesNotExist:
                     messages.warning(
                         request, "There is no user with the entered email.If you want to enter the system for the first time, use the phone number.")
@@ -69,7 +69,7 @@ class Create(APIView):
         confirm_password = serializers.CharField()
         sms_code = serializers.CharField()
 
-    def get(self, request):
+    def get(self, request,phonemail):
         return Response({"detail": "Please send the phone_number, sms_code, password and confirm_password"})
 
     def post(self, request):
@@ -95,7 +95,7 @@ class LoginEmail(APIView):
         email = serializers.EmailField()
         password = serializers.CharField()
 
-    def get(self, request):
+    def get(self, request,phonemail):
         return Response({"detail": "Please send email and password."})
 
     def post(self, request):
@@ -123,7 +123,6 @@ class LoginPhone(APIView):
         return Response({"detail": f"Please send phone_number and password. phone:{phonemail}"})
 
     def post(self, request):
-        print("post login p")
         serialize = self.OutputSerializer(data=request.data)
         if serialize.is_valid(raise_exception=True):
             phone = serialize.validated_data.get("phone_number")
