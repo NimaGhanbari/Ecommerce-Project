@@ -29,29 +29,35 @@ class InitialAuth(APIView):
 
     def post(self, request):
         serialize = self.OutputSerializer(data=request.data)
-        phonemail = serialize.initial_data["phonemail"]
-        if phonemail.isdigit():
-            # if phonemail is number phone
-            try:
-                User.objects.get(phone_number=phonemail)
-                return redirect("login_phone")
-            except User.DoesNotExist:
-                result = SendCode(phone=phonemail)
-                if result != None:
-                    messages.error(request, "Error")
-                    return Response({"detail": f"ERROR: {result}"}, status=status.HTTP_400_BAD_REQUEST)
-                else:
-                    messages.success(request, "The code has been sent to you")
-                    return redirect("create_user")
+        if serialize.is_valid():
+            phonemail = serialize.validated_data["phonemail"]
+            if phonemail.isdigit():
+                # if phonemail is number phone
+                try:
+                    User.objects.get(phone_number=phonemail)
+                    print("1"*100)
+                    return redirect(f"/auth/loginp/{phonemail}")
+                except User.DoesNotExist:
+                    result = SendCode(phone=phonemail)
+                    if result != None:
+                        messages.error(request, "Error")
+                        return Response({"detail": f"ERROR: {result}"}, status=status.HTTP_400_BAD_REQUEST)
+                    else:
+                        messages.success(
+                            request, "The code has been sent to you")
+                        return redirect("create_user")
+            else:
+                # if phonemail is email
+                try:
+                    User.objects.get(email=phonemail)
+                    return redirect("login_email")
+                except User.DoesNotExist:
+                    messages.warning(
+                        request, "There is no user with the entered email.If you want to enter the system for the first time, use the phone number.")
+                    return redirect("initial")
         else:
-            # if phonemail is email
-            try:
-                User.objects.get(email=phonemail)
-                return redirect("login_email")
-            except User.DoesNotExist:
-                messages.warning(
-                    request, "There is no user with the entered email.If you want to enter the system for the first time, use the phone number.")
-                return redirect("initial")
+            messages.error(request, "Error")
+            return Response({"detail": "ERROR"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Create(APIView):
@@ -113,10 +119,11 @@ class LoginPhone(APIView):
         phone_number = serializers.CharField()
         password = serializers.CharField()
 
-    def get(self, request):
-        return Response({"detail": "Please send phone_number and password."})
+    def get(self, request, phonemail):
+        return Response({"detail": f"Please send phone_number and password. phone:{phonemail}"})
 
     def post(self, request):
+        print("post login p")
         serialize = self.OutputSerializer(data=request.data)
         if serialize.is_valid(raise_exception=True):
             phone = serialize.validated_data.get("phone_number")
