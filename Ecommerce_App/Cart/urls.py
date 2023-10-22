@@ -8,4 +8,5 @@ from Ecommerce_App.Cart.Apis.cartview import Cart_View
 
 urlpatterns = [
     path('', Cart_View.as_view(), name='cart-add'),
+    path('<str:product_slug>/', Cart_View.as_view(), name='cart-del'),
 ]
