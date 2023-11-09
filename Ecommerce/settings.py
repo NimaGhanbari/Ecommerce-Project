@@ -27,6 +27,7 @@ LOCAL_APPS = [
     'Ecommerce_App.Address.apps.AddressConfig',
     'Ecommerce_App.Cart.apps.CartConfig',
     'Ecommerce_App.Shipping.apps.ShippingConfig',
+    'Ecommerce_App.Search.apps.SearchConfig',
     
 ]
 
