@@ -16,7 +16,10 @@ from Ecommerce_App.PostFiles.models import Post_File
 
 
 class PostApi(APIView):
-
+    # زمانی که ما یکسری محصولات را می خواهیم بر گردانیم از این تابع استفاده میکنیم
+    # در این قسمت ایتدا یک اسلاگ از کتگوری ها میگیرد و چک میکند که آیا آن دسته بندی, زیر دسته بندی دارد یا خیر 
+    # اگر داشته باشد که زیر دسته بندی ها را بر میگرداند اما اگر نداشته باشد بر اساس فیلد هایی که خواسته فیلتر و مرتب سازی میکند
+    # و اطلاعات را به صورت جیسان بر میگرداند
     class OutPutSerializer(serializers.ModelSerializer):
         files = FileSerializer(many=True)
 

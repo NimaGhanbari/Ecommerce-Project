@@ -17,7 +17,7 @@ def Filtering(request, products: QuerySet[Products]):
     price_max: int = request.GET.get('price_max')
     price_min: int = request.GET.get('price_min')
     is_enable: bool = request.GET.get('is_enable')
-
+    # title
     if brand:
         try:
             products = products.filter(categories=brand)
@@ -121,20 +121,20 @@ def Sort_By(elements: QuerySet[Products], by: int = 4) -> QuerySet[Products]:
 
 
 def Ordering(request, products: QuerySet[Products]) -> QuerySet[Products]:
-    new = request.GET.get('new')
-    popular = request.GET.get('popular')
+    # new = request.GET.get('new')
+    # popular = request.GET.get('popular')
     # most visited
     # best seller
-    Inexpensive = request.GET.get('Inexpensive')
-    Expensive = request.GET.get('Expensive')
-
-    if new:
+    # Inexpensive = request.GET.get('Inexpensive')
+    # Expensive = request.GET.get('Expensive')
+    sort = request.GET.get('sort')
+    if sort == '4':
         return Sort_By(list(products), 4)
-    if popular:
+    if sort == '0':
         return Sort_By(list(products), 0)
-    if Inexpensive:
+    if sort == '3':
         return Sort_By(list(products), 3)
-    if Expensive:
+    if sort == '2':
         return Sort_By(list(products), 2)
 
     return products

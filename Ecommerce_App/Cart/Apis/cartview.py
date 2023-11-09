@@ -29,6 +29,7 @@ class Cart_View(APIView):
             fields = ('id', 'product', 'created_at', 'updated_at')
 
     def get(self, request):
+        # باید قیمت نهایی هم ارسال شود
         carts = Cart.objects.filter(user=request.user)
         return Response(self.OutPutSerializer(carts, many=True, context={"request": request}).data)
 
