@@ -18,7 +18,7 @@ class Products_admin(NestedModelAdmin):
                     'uniqe_code', 'is_enable', 'categor', 'created_at']
 
     def categor(self, obj):
-        return ([Category.title for category in obj.categories.all()])
+        return ([category.title for category in obj.categories.all()])
     filter_horizontal = ['categories']
     search_fields = ['title']
     date_hierarchy = 'created_at'

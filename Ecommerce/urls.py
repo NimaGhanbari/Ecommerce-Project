@@ -7,4 +7,8 @@ urlpatterns = [
     path('product/',include("Ecommerce_App.Product.urls")),
     path('auth/',include("Ecommerce_App.Authentication.urls")),
     path('user/',include("Ecommerce_App.User.urls")),
+    path('checkout/cart/',include("Ecommerce_App.Cart.urls")),
+    path('checkout/shipping/',include("Ecommerce_App.Shipping.urls")),
+    path('search/',include("Ecommerce_App.Search.urls")),
+    path('category/',include("Ecommerce_App.Category.urls")),
 ]

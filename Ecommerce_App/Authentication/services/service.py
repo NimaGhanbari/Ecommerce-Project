@@ -24,6 +24,7 @@ User = get_user_model()
 
 
 def SendSMS(phone: int, message: str) -> None | Exception:
+    print(message)
     try:
         api = KavenegarAPI(local_settings.KAVENEGAR_KEY)
         params = {
@@ -33,7 +34,6 @@ def SendSMS(phone: int, message: str) -> None | Exception:
             'message': f'{message}'
         }
         result = api.sms_send(params)
-
     except APIException as e:
         print(str(e))
         #باید خط پایین را از کامنت در بیاوریم و دو خط پایین را باید کامنت کنیم

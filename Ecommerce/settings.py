@@ -25,6 +25,10 @@ LOCAL_APPS = [
     'Ecommerce_App.User.apps.UserConfig',
     'Ecommerce_App.Authentication.apps.AuthenticationConfig',
     'Ecommerce_App.Address.apps.AddressConfig',
+    'Ecommerce_App.Cart.apps.CartConfig',
+    'Ecommerce_App.Shipping.apps.ShippingConfig',
+    'Ecommerce_App.Search.apps.SearchConfig',
+    'Ecommerce_App.Article.apps.ArticleConfig',
     
 ]
 
@@ -33,6 +37,7 @@ THIRD_PARTY_APPS = [
     'nested_admin',
     'django_filters',
     'rest_framework_simplejwt',
+    'ckeditor',
     
 ]
 

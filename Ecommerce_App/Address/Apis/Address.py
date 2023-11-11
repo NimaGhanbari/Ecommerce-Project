@@ -10,10 +10,9 @@ from rest_framework import status
 
 # Local
 from Ecommerce_App.Address.models import Address
-from Ecommerce_App.Address.services.address import Create_Address, Update_Address
+from Ecommerce_App.Address.services.address import Create_Address, Update_Address , Convert_Address
 
-# Third Party
-from geopy.geocoders import Nominatim
+
 
 # Python
 import json
@@ -36,16 +35,7 @@ class AddressApi(APIView):
 
     def get(self, request):
         Addresses = get_list_or_404(Address, user=request.user)
-        geolocator = Nominatim(user_agent="Address")
-        locations = []
-        text = []
-        for x in Addresses:
-            locations.append(geolocator.reverse(
-                f"{x.latitude}, {x.longitude}"))
-
-        for x in locations:
-            text.append(x.address)
-
+        text = Convert_Address(Addresses=Addresses)
         return Response(data=json.dumps(text, ensure_ascii=False), status=status.HTTP_200_OK)
 
     def post(self, request):

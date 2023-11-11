@@ -5,7 +5,7 @@ from django.db.models import QuerySet
 from Ecommerce_App.Category.models import Category
 
 
-def is_subcategory(categor: Category, type: str) -> QuerySet[Category]:
+def is_subcategory(categor: Category, type: str) -> QuerySet[Category] | None:
     """
     This function returns the categories,
     if we give None input to it, the parent categories will be returned
