@@ -38,6 +38,8 @@ class CommentApi(APIView):
         serializer = self.InPutSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         product = get_object_or_404(Products, slug=Pslug)
+        # چک شود که کاربر باید یک کامنت برای هر محصول داشته باشد
+        # محتوای متنی پیام چک شود که مورد خاصی نداشته باشد
         try:
             Comment.objects.get(author=request.user,product= product)
             return Response({"detail":"You have already commented on this product"},status=status.HTTP_400_BAD_REQUEST)
