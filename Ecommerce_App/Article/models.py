@@ -1,13 +1,12 @@
 from django.db import models
 from Ecommerce_App.Commons.models import BaseModel
-
-
+from ckeditor.fields import RichTextField
 
 
 class Article(BaseModel):
     
     title = models.CharField(max_length=128,verbose_name="عنوان")
-    text = models.TextField(verbose_name="بدنه مقاله",blank=True,null=True)
+    content = RichTextField()
     slug = models.SlugField(primary_key=True, max_length=100)
     is_active = models.BooleanField(default=True)
     uniqe_code = models.PositiveIntegerField(verbose_name="uniqe_code", unique=True)

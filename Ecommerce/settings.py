@@ -37,6 +37,7 @@ THIRD_PARTY_APPS = [
     'nested_admin',
     'django_filters',
     'rest_framework_simplejwt',
+    'ckeditor',
     
 ]
 
