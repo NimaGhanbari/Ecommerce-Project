@@ -11,4 +11,5 @@ urlpatterns = [
     path('checkout/shipping/',include("Ecommerce_App.Shipping.urls")),
     path('search/',include("Ecommerce_App.Search.urls")),
     path('category/',include("Ecommerce_App.Category.urls")),
+    path('article/',include("Ecommerce_App.Article.urls")),
 ]
