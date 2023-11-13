@@ -13,3 +13,4 @@ class Article_Admin(NestedModelAdmin):
     search_fields = ['title']
     date_hierarchy = 'created_at'
     inlines = [Files_Article_Admin,]
+    exclude = ("slug",)

@@ -6,7 +6,7 @@ class Article(BaseModel):
     
     title = models.CharField(max_length=256,verbose_name="عنوان")
     content = QuillField()
-    slug = models.SlugField(primary_key=True, max_length=100)
+    slug = models.SlugField(primary_key=True, max_length=100,blank=True)
     is_active = models.BooleanField(default=True)
     uniqe_code = models.PositiveIntegerField(verbose_name="uniqe_code", unique=True)
     cover = models.ImageField(verbose_name="کاور مقاله", upload_to='Article/%Y/%m/%d/', blank=True, null=True)
