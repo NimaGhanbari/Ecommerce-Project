@@ -1,6 +1,6 @@
 # Django
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include,re_path
 
 # Local
 from Ecommerce_App.Cart.Apis.cartview import Cart_View

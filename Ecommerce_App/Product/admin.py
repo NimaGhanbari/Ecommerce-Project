@@ -23,4 +23,4 @@ class Products_admin(NestedModelAdmin):
     search_fields = ['title']
     date_hierarchy = 'created_at'
     inlines = [Comments_admin, Like_admin, Files_Admin]
-    exclude = ('slug',)
+    exclude = ('slug','uniqe_code')
