@@ -4,3 +4,6 @@ from django.apps import AppConfig
 class CategoryConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'Ecommerce_App.Category'
+    
+    def ready(self):
+        import Ecommerce_App.Category.signals
