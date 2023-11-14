@@ -17,7 +17,8 @@ class Products(BaseModel):
     is_enable = models.BooleanField(_("is enable"), default=True)
     uniqe_code = models.PositiveIntegerField(
         verbose_name=_('uniqe_code'), unique=True)
-
+    price_dis = models.BigIntegerField(verbose_name="قیمت ویژه",blank=True,default=0)
+    has_discount = models.BooleanField(verbose_name="دارای تخفیف",default=False)
     class Meta:
         db_table = "products"
         verbose_name = _("product")
