@@ -1,13 +1,14 @@
-
+# Python
 import random
 
+# Django 
 from django.utils.text import slugify
 
 
 
-
+# This function takes a instance and produces a slug with the title of that instance
+# In this section, recursive functions are used instead of loops
 def generate_unique_slug(instance,model, new_slug=None):
-    # In this section, recursive functions are used instead of loops
     slug = None
     if new_slug is not None:
         slug = new_slug
@@ -20,9 +21,9 @@ def generate_unique_slug(instance,model, new_slug=None):
     return slug
 
 
-
-def generate_unique_unique_code(instance,model):
-    # In this section, recursive functions are used instead of loops
+# This function generates and returns a random number that is not repeated.
+# In this section, recursive functions are used instead of loops
+def generate_unique_code(instance,model):
     random_code = random.randint(1000,9999)
     qs = model.objects.filter(uniqe_code=random_code)
     if qs.exists():

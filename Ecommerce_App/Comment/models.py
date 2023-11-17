@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 # Local
+# Local
 from Ecommerce_App.Product.models import Products
 from Ecommerce_App.Commons.models import BaseModel
 

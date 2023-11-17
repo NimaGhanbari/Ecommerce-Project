@@ -9,17 +9,22 @@ from Ecommerce_App.Category.models import Category
 from Ecommerce_App.Discount.models import Discount
 from .models import Products
 from Ecommerce_App.Discount.admin import Discount_admin
+
 # Third Party
 from nested_admin import NestedModelAdmin
 
 
 @admin.register(Products)
 class Products_admin(NestedModelAdmin):
+    
     list_display = ['title', 'price', 'slug','has_discount','Percent_Discount','price_dis',
                     'uniqe_code', 'is_enable', 'categor', 'created_at']
-
+    
+    # This function returns the categories of each product
     def categor(self, obj):
         return ([category.title for category in obj.categories.all()])
+    
+    # This function returns the discount percentage of each product
     def Percent_Discount(self,obj):
         try:
             p = Discount.objects.get(product=obj)

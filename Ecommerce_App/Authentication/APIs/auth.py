@@ -16,21 +16,28 @@ from Ecommerce_App.Authentication.services.service import SendCode, check, get_o
 from Ecommerce_App.User.services.create import Create_User
 
 
+# Global Variable
 User = get_user_model()
 
 
 class InitialAuth(APIView):
 
+    # This class is for authentication
+    # get  -> In this function, a form should be displayed to the user to enter his phone number or email,
+    #         then be transferred to the post function. 
+    #         In this section, the frontend should take a character or string input and send it to the post function
+    # post -> 1- Phone number and existence: It is referred to "LoginPhone"
+    #         2- Phone number and not existence: A random code for verification is sent to the phone number and referred to the "Create function"
+    #         3- Email and existence: It is referred to "LoginEmail"
+    #         4- Email and not existence: An error message is sent to the user who must register with a phone number
     class OutputSerializer(serializers.Serializer):
         phonemail = serializers.CharField()
 
     def get(self, request):
-        # یک فرم که یا شماره تلفن یا ایمیل را دریافت کندو به تابع پایین با متد پست بفرستد
         return Response({"detail": "Please enter your phone number or email"})
 
     def post(self, request):
         serialize = self.OutputSerializer(data=request.data)
-        # این قسمت اصلاح شود که در خط زیر ایمیل یا شماره را باید از طریق دیگری از سریالاز بگیریم
         phonemail = serialize.initial_data["phonemail"]
         if phonemail.isdigit():
             # if phonemail is number phone

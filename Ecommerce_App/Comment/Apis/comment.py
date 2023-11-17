@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 # Local
 from Ecommerce_App.Product.models import Products
@@ -14,6 +16,10 @@ from Ecommerce_App.Comment.services.comment import create_comment
 
 class CommentApi(APIView):
 
+    # get    -> This function returns the comments of a product.
+    # post   -> In this section, authentication must be jacked
+                # you can check the comments and if there is no problem, that comment can be registered
+    # delete -> This function causes the comment of that person to be deleted
     class OutPutSerializer(serializers.ModelSerializer):
         class Meta:
             model = Comment
@@ -25,20 +31,15 @@ class CommentApi(APIView):
             fields = ("text",)
 
     def get(self, request, Pslug):
-        #This function returns the comments of a product.
         product = get_object_or_404(Products, slug=Pslug)
         comments = product.comments
         return Response(self.OutPutSerializer(comments, many=True, context={"request": request}).data, status=status.HTTP_200_OK)
-        
+    
+    @permission_classes([IsAuthenticated])  
     def post(self, request, Pslug):
-        # In this section, authentication must be jacked
-        # In this section, you can check the comments and if there is no problem,
-        # that comment can be registered
-        
         serializer = self.InPutSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         product = get_object_or_404(Products, slug=Pslug)
-        # چک شود که کاربر باید یک کامنت برای هر محصول داشته باشد
         # محتوای متنی پیام چک شود که مورد خاصی نداشته باشد
         try:
             Comment.objects.get(author=request.user,product= product)
@@ -57,9 +58,8 @@ class CommentApi(APIView):
                 )
         return Response({"create": "Your comment has been successfully saved"}, status=status.HTTP_201_CREATED)
     
+    @permission_classes([IsAuthenticated])
     def delete(self,request,Pslug):
-        #In this section, authentication must be checked
-        #This function causes the comment of that person to be deleted
         product = get_object_or_404(Products, slug=Pslug)
         product.comments.filter(author= request.user).delete()
         return Response({"delete":"ok , deleted"},status=status.HTTP_204_NO_CONTENT)

@@ -16,10 +16,10 @@ from Ecommerce_App.PostFiles.models import Post_File
 from Ecommerce_App.Category.Apis.CategoryApis import Category_api
 
 class PostApi(APIView):
-    # زمانی که ما یکسری محصولات را می خواهیم بر گردانیم از این تابع استفاده میکنیم
-    # در این قسمت ایتدا یک اسلاگ از کتگوری ها میگیرد و چک میکند که آیا آن دسته بندی, زیر دسته بندی دارد یا خیر 
-    # اگر داشته باشد که زیر دسته بندی ها را بر میگرداند اما اگر نداشته باشد بر اساس فیلد هایی که خواسته فیلتر و مرتب سازی میکند
-    # و اطلاعات را به صورت جیسان بر میگرداند
+    # get -> This function returns products by category.
+    # In this part, it first takes a slug from the category and checks whether that category has subcategories or not.
+    # If it has subcategories, it returns subcategories,
+    # but if not, it will filter and sort based on the fields and returns the information in the form of Json
     class OutPutSerializer(serializers.ModelSerializer):
         files = FileSerializer(many=True)
 
@@ -30,9 +30,6 @@ class PostApi(APIView):
     
 
     def get(self, request, Cslug):
-        """
-        This function displays products without any filter or returns subcategories
-        """
         categor = get_object_or_404(Category, slug=Cslug, is_active=True)
         result = is_subcategory(categor, "1")
         if result.count() != 0:
@@ -46,6 +43,8 @@ class PostApi(APIView):
 
 class PostDetailApi(APIView):
 
+    # get -> In this function, the details of each product are returned.
+    
     class OutPutSerializer(serializers.ModelSerializer):
         categories = Category_api.CategorySerializer(many=True)
         files = FileSerializer(many=True)

@@ -8,7 +8,8 @@ from Ecommerce_App.Commons.models import BaseModel
 
 
 class Discount(BaseModel):
-
+    # Because we don't have many objects of this model and the objects are deleted after the discount period ends,
+    # there is no need to insert an index for search or filter.
     discount = models.IntegerField(verbose_name="درصد تخفیف", validators=[
                                    MinValueValidator(0), MaxValueValidator(100)])
     valid_from_discount = models.DateTimeField(

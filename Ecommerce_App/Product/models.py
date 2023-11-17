@@ -26,7 +26,8 @@ class Products(BaseModel):
 
     def __str__(self):
         return self.title
-
+    
+    # This is a property that returns the number of reactions of a product
     @property
     def count_reactions(self):
         dict_count = {}
