@@ -11,15 +11,21 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import serializers
+from rest_framework.permissions import IsAuthenticated
+
 
 
 class ReactionApi(APIView):
-    # In this section, authentication must be checked
+    
+    permission_classes = [IsAuthenticated]
+    
+    # put -> This function produces or edits or deletes a reaction
+    
     class InPutSerializer(serializers.ModelSerializer):
         class Meta:
             model = Like
             fields = ("value",)
-
+    
     def put(self, request, Pslug):
         serializer = self.InPutSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

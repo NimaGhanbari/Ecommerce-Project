@@ -13,9 +13,7 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, phone_number,email, password , is_staff, is_superuser, **extra_fields):
-        """
-        Create and save a user with the given username, email, and password.
-        """
+        
         now = timezone.now()
         user = self.model(phone_number=phone_number,
                           is_staff=is_staff,

@@ -11,7 +11,7 @@ from Ecommerce_App.Product.models import Products
 
 User = get_user_model()
 
-
+# In this function, an object of like is created, deleted or edited
 def create_like(*, user: User, product: Products, value: str) -> Like | None:
 
     try:
@@ -29,4 +29,4 @@ def create_like(*, user: User, product: Products, value: str) -> Like | None:
         lik = Like.objects.create(
             user=user, product=product, value=value
         )
-    return lik
+        return lik

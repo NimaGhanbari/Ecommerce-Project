@@ -31,26 +31,3 @@ class Post_File(BaseModel):
     def __str__(self):
         return self.title
 
-
-class Article_File(BaseModel):
-    FILE_VIDEO = 1
-    FILE_IMG = 2
-    FILE_PDF = 3
-    FILE_TYPES = (
-        (FILE_VIDEO, "ویدیو"),
-        (FILE_IMG, "تصویر"),
-        (FILE_PDF, "PDF")
-    )
-    title = models.CharField("عنوان", max_length=50)
-    file_type = models.PositiveSmallIntegerField(choices=FILE_TYPES)
-    fil = models.FileField(_("فایل"), upload_to="Article/%Y/%m/%d/")
-    articel = models.ForeignKey(Article, verbose_name="مقاله", related_name='files', on_delete=models.CASCADE)
-    is_active = models.BooleanField("فعال", default=True)
-
-    class Meta:
-        db_table = "Article_files"
-        verbose_name = _("Article_file")
-        verbose_name_plural = _("Article_files")
-
-    def __str__(self):
-        return self.title

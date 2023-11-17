@@ -8,3 +8,4 @@ from .models import Category
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'avatar', 'slug',
                     'is_active', 'parent', 'created_at']
+    exclude = ('slug',)

@@ -11,39 +11,26 @@ from Ecommerce_App.PostFiles.models import Post_File
 from Ecommerce_App.Product.models import Products
 from Ecommerce_App.Category.models import Category
 
-
+# This function filters by receiving the filtering details from the request and performs the filter on the products
 def Filtering(request, products: QuerySet[Products]):
     brand: Category = request.GET.get('brand')
     price_max: int = request.GET.get('price_max')
     price_min: int = request.GET.get('price_min')
     is_enable: bool = request.GET.get('is_enable')
-    # title
+    
     if brand:
         try:
             products = products.filter(categories=brand)
         except Exception as ex:
             return Response({f"detail": "category is not valid - {ex}"}, status=status.HTTP_400_BAD_REQUEST)
     if price_max or price_min:
-        # temp = []
-        # for product in products:
-        #    if product.price > price_min and product.price < price_max:
-        #        temp.append(product)
-        # products = temp
-
-        # products = list(filter(lambda product: product.get(
-        #    'price') > price_min and product.get('price') < price_max, products))
         if price_max == None or price_max == None:
             return Response({"detail": "price min or price max is not valid"}, status=status.HTTP_400_BAD_REQUEST)
 
         products = products.filter(price__range=[price_min, price_max])
 
-        # return Response({f"detail": "price is not valid - {ex}"}, status=status.HTTP_400_BAD_REQUEST)
-    # if new:
-    #    products = Sort_By(products,by=4)
     if is_enable:
         try:
-            # products = list(
-            #    filter(lambda product: product.get('is_enable') == True, products))
             products = products.filter(is_enable=True)
         except Exception as ex:
             return Response({f"detail": "price is not valid - {ex}"}, status=status.HTTP_400_BAD_REQUEST)
@@ -51,6 +38,7 @@ def Filtering(request, products: QuerySet[Products]):
     return products
 
 
+# This class serializes the file model objects
 class FileSerializer(serializers.ModelSerializer):
     file_type = serializers.SerializerMethodField()
 
@@ -101,7 +89,7 @@ def selectionSort(elements: QuerySet[Products], id: int) -> QuerySet[Products]:
             elements[min_index], elements[ind])
     return elements
 
-
+# This function sorts into 5 types that are used in the "Ordering" function.
 def Sort_By(elements: QuerySet[Products], by: int = 4) -> QuerySet[Products]:
     # 0:محبوبترین
     # 1:پرفروشترین
@@ -119,14 +107,8 @@ def Sort_By(elements: QuerySet[Products], by: int = 4) -> QuerySet[Products]:
     elif by == 4:
         return bubblesort(elements=elements)
 
-
+# This function sorts into 5 types. The sort value is taken from the query param, which must be a number between 0 and 5
 def Ordering(request, products: QuerySet[Products]) -> QuerySet[Products]:
-    # new = request.GET.get('new')
-    # popular = request.GET.get('popular')
-    # most visited
-    # best seller
-    # Inexpensive = request.GET.get('Inexpensive')
-    # Expensive = request.GET.get('Expensive')
     sort = request.GET.get('sort')
     if sort == '4':
         return Sort_By(list(products), 4)

@@ -7,19 +7,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 # Local
 from Ecommerce_App.Address.models import Address
 from Ecommerce_App.Address.services.address import Create_Address, Update_Address , Convert_Address
-
-
 
 # Python
 import json
 
 
 class AddressApi(APIView):
-    # The user must authenticate
+    # *****The user must authenticate*****
     # In this class, there are APIs related to addresses, each function has its own activity
     # get    -> This function returns all user addresses
     # post   -> This function generates an address for the user in such a way that
@@ -28,6 +27,8 @@ class AddressApi(APIView):
     # delete -> This function deletes the desired address
     # The post and put part can be written in the same way, but I used both sides
 
+    permission_classes = [IsAuthenticated]
+    
     class OutputSerializer(serializers.ModelSerializer):
         class Meta:
             model = Address
@@ -36,6 +37,8 @@ class AddressApi(APIView):
     def get(self, request):
         Addresses = get_list_or_404(Address, user=request.user)
         text = Convert_Address(Addresses=Addresses)
+        # When ensure_ascii is equal to false,
+        # it means that the dumps function should convert non-English content such as Persian letters to json
         return Response(data=json.dumps(text, ensure_ascii=False), status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -68,13 +71,12 @@ class AddressApi(APIView):
 
     def put(self, request, pk):
         serialize = self.OutputSerializer(data=request.data)
-        # pk = serialize.initial_data["id"]
         if serialize.is_valid():
             try:
                 New_Address = Update_Address(
                     serialize=serialize, pk=pk, request=request)
                 return Response({"detail": "OK"}, status=status.HTTP_200_OK)
             except Exception as ex:
-                return Response({"detail": f"ERROR: {ex}"})
+                return Response({"detail": f"ERROR: {ex}"},status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({"detail": "not valid"})
+            return Response({"detail": "not valid"},status=status.HTTP_400_BAD_REQUEST)

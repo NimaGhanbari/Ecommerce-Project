@@ -1,4 +1,3 @@
-
 # Django
 from django.shortcuts import get_object_or_404
 
@@ -13,6 +12,7 @@ from Ecommerce_App.Category.models import Category
 
 class Category_api(APIView):
     
+    # get -> This function returns categories
     class CategorySerializer(serializers.ModelSerializer):
         class Meta:
             model = Category
